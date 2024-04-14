@@ -1,6 +1,5 @@
 function solution(n) {
     var answer = '수';
-    console.log(answer[answer.length-1])
     for(let i = 0; i < n -1; i++){
     if(answer[answer.length -1] === '수'){
         answer += '박';
