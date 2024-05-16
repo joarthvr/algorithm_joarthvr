@@ -26,7 +26,7 @@ function solution(s) {
     
     for (let j = 0; j < s.length; j++) {
         stack = new Stack();  // 매 회전마다 스택 초기화
-        let isBalanced = true;  // 균형 여부 체크
+        
 
         for (let i = 0; i < strArray.length; i++) {
             stack.push(strArray[i]);
