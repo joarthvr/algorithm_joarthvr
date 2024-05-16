@@ -8,7 +8,6 @@ function solution(k, tangerine) {
         q=i+1;
         }
     }
-    console.log(size);
     size = size.sort((a,b)=>b-a);
     let i = 0;
     let cnt = 0;
