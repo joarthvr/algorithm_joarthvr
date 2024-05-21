@@ -8,10 +8,10 @@ function solution(clothes) {
         accu[curr] = (accu[curr] || 0) + 1;
         return accu;
     }, {});
-    // Step 2: 빈도가 0보다 큰 숫자의 등장 횟수를 배열로 저장합니다.
+    // Step 2: 빈도가 1보다 큰 숫자의 등장 횟수를 배열로 저장합니다.
     const repeatedCounts = Object.values(frequency)
         .filter(count => count > 0);
-    let ans = repeatedCounts.reduce((a,e)=>{
+    const ans = repeatedCounts.reduce((a,e)=>{
         return a*(e+1);
     },1);
     return ans -1;
