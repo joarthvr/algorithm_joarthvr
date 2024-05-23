@@ -10,6 +10,7 @@ function solution(s){
             y++;
         }
     }
+    console.log(p)
     
      return p === y ? true : false
 }
