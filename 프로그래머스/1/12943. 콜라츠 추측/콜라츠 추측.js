@@ -12,5 +12,6 @@ function solution(num) {
             return -1;
     }
     }
+    console.log(cnt)
     return cnt;
 }
