@@ -8,5 +8,5 @@ function solution(n, s) {
         result[i]++;
     }
 
-    return result.sort((a, b) => a - b);
+    return result.sort((a, b) => a - b)
 }
