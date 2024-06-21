@@ -1,9 +1,9 @@
 function solution(phone_number) {
-    const size = phone_number.length
-    let a = phone_number.substring(size-4,size);
-    let b = '';
-    for(let i = 0; i < size-4; i++){
-        b += "*";
+    let s = '';
+    let front = phone_number.slice(0, phone_number.length-4).replaceAll(phone_number,"*");
+    let back = phone_number.slice(phone_number.length-4);
+    for(let i = 0; i < front.length; i++){
+        s += '*';
     }
-    return b+a;
+    return s + back;
 }
