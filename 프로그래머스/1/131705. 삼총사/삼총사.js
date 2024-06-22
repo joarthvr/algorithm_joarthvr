@@ -1,21 +1,21 @@
-
-function solution(number) {
-    const size = number.length;
-    let sum = 0;
-    let cnt = 0;
-  for(let i = 0; i < size; i++){
-      for(let j = i+1; j < size; j++){
-          for(let k = j+1; k < size; k++){
-              sum = 0;
-             sum = number[i] + number[j] + number[k];
-              if(sum === 0){
-                  cnt++;
-              }
-          }
-      }
-  }
-    return cnt;
+function combination(items, idx, k, list, result) {
+    if(items.length === k){
+        result.push(items);
+        return;
+    }
+    for (let I = idx; I < list.length; I++) {
+        combination([...items, list[I]], I + 1, k, list, result);
+    }
 }
 
-//3개를 추출
-//3개를 더해서 0이 되면 cnt++
+function solution(number) {
+    let result = []
+    combination([], 0, 3, number, result);
+    console.log(result);
+    result = result.map(e => e.reduce((acc,element) => acc + element, 0));
+    let cnt = 0;
+    result.forEach(e => {if(e === 0){
+            cnt++;
+    }});
+    return cnt;
+}
