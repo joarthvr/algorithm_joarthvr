@@ -1,14 +1,14 @@
 # [level 1] 옹알이 (2) - 133499 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/133499?language=javascript) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/133499) 
 
 ### 성능 요약
 
-메모리: 33.6 MB, 시간: 0.40 ms
+메모리: 33.5 MB, 시간: 0.25 ms
 
 ### 구분
 
-코딩테스트 연습 > 연습문제
+ > 
 
 ### 채점결과
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 05월 02일 16:44:58
+2024년 06월 25일 15:58:11
 
 ### 문제 설명
 
