@@ -9,11 +9,8 @@ function solution(s, skip, index) {
     }
     let result = ""
     for(let i = 0; i < s.length; i++){
-        let skippedIndex = spelling.indexOf(s[i])+index;
-        if(skippedIndex >= spelling.length)
-            skippedIndex = skippedIndex % spelling.length;
-        //console.log(skippedIndex)
-        result+=(spelling[skippedIndex]);
+        let skippedIndex = (spelling.indexOf(s[i])+index)%spelling.length;
+        result += spelling[skippedIndex];
     }
     return result;
 }
