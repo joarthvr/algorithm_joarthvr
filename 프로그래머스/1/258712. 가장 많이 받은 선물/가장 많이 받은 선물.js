@@ -47,7 +47,7 @@ console.log(person)
     }
 }
     let result = Object.entries(person).sort((a, b) => a[1].nextReceive - b[1].nextReceive);
-    answer = result[result.length-1][1].nextReceive;
+    let answer = result[result.length-1][1].nextReceive;
 
     
     
