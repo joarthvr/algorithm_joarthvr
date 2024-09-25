@@ -1,52 +1,20 @@
 function solution(files) {
-    // 파일명을 분석하여 HEAD, NUMBER, TAIL로 분리
-    const parsedFiles = files.map((file, index) => {
-        let head = '';
-        let number = '';
-        let tail = '';
-        let i = 0;
-
-        // HEAD 추출
-        while (i < file.length && !isDigit(file[i])) {
-            head += file[i];
-            i++;
-        }
-
-        // NUMBER 추출
-        while (i < file.length && isDigit(file[i]) && number.length < 5) {
-            number += file[i];
-            i++;
-        }
-
-        // TAIL 추출
-        tail = file.slice(i);
-
-        return { 
-            originalIndex: index, 
-            head: head.toLowerCase(), 
-            number: parseInt(number), 
-            tail 
-        };
-    });
-
-    // 정렬
-    parsedFiles.sort((a, b) => {
-        // HEAD 비교
-        if (a.head < b.head) return -1;
-        if (a.head > b.head) return 1;
-
-        // NUMBER 비교
-        if (a.number < b.number) return -1;
-        if (a.number > b.number) return 1;
-
-        // 원래 순서 유지
-        return a.originalIndex - b.originalIndex;
-    });
-
-    // 정렬된 순서대로 원래 파일명 반환
-    return parsedFiles.map(file => files[file.originalIndex]);
+    const files2 = files;
+    
+    function person(file){
+    this.HEAD = file.slice(0,3),
+    this.NUMBER = file.slice(0,3),
+    this.TAIL = file.slice(0,3),
+}
+    const arr = [];
+    
+    for(let i = 0; i < files.length; i++){
+        const person = new person(files[i]);
+        arr.push(person)
+    }
+    console.log(arr)
 }
 
-function isDigit(char) {
-    return char >= '0' && char <= '9';
-}
+// 100글자 이내, 영어 대소문자, 숫자, 공백, 마침표, 빼기 부호 만으로 이루어짐
+// 파일명은 영문자로 시작하며 숫자를 하나 이상 포함하고 있음
+// 파일명을 헤드 넘버 테일 세부분으로 나눈다
