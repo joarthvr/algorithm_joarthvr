@@ -25,16 +25,16 @@ function solution(s) {
     let strArray = s.split('');
     
     for (let j = 0; j < s.length; j++) {
-        stack = new Stack();  // 매 회전마다 스택 초기화
-        
-
+        stack = new Stack();  
         for (let i = 0; i < strArray.length; i++) {
             stack.push(strArray[i]);
             if (stack.size > 1) {
                 let top1 = stack.pop();
                 let top2 = stack.pop();
 
-                if ((top2 === "[" && top1 === "]") || (top2 === "(" && top1 === ")") || (top2 === "{" && top1 === "}")) {
+                if ((top2 === "[" && top1 === "]") || 
+                    (top2 === "(" && top1 === ")") || 
+                    (top2 === "{" && top1 === "}")) {
                     continue;
                 } else {
                     stack.push(top2);
