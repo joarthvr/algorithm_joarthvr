@@ -1,19 +1,21 @@
 function solution(prices) {
     const len = prices.length;
-    const result = [];
+    const result = Array(len).fill(0);
+    const stack = []; // [index, price]
     
     for(let i = 0; i < len; i++) {
-        let seconds = 0;
-        
-        // i 이후의 가격들과 비교
-        for(let j = i + 1; j < len; j++) {
-            seconds++; // 시간 증가
-            if(prices[i] > prices[j]) { // 가격이 떨어지면
-                break; // 중단
-            }
+        // 스택에 있는 이전 가격들 중 현재 가격보다 큰 것들 처리
+        while(stack.length && prices[i] < prices[stack[stack.length-1]]) {
+            const prevIdx = stack.pop();
+            result[prevIdx] = i - prevIdx;
         }
-        
-        result.push(seconds);
+        stack.push(i);
+    }
+    
+    // 스택에 남아있는 가격들 처리 (끝까지 가격이 떨어지지 않은 경우)
+    while(stack.length) {
+        const prevIdx = stack.pop();
+        result[prevIdx] = len - 1 - prevIdx;
     }
     
     return result;
