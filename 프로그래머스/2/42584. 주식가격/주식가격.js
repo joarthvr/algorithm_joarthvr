@@ -1,22 +1,22 @@
 function solution(prices) {
     const len = prices.length;
-    const result = Array(len).fill(0);
-    const stack = []; // [index, price]
+    const answer = new Array(len).fill(0);
+    const stack = [];  // [index]만 저장
     
     for(let i = 0; i < len; i++) {
-        // 스택에 있는 이전 가격들 중 현재 가격보다 큰 것들 처리
-        while(stack.length && prices[i] < prices[stack[stack.length-1]]) {
-            const prevIdx = stack.pop();
-            result[prevIdx] = i - prevIdx;
+        // 현재 가격이 스택의 top 가격보다 작을 때
+        while(stack.length && prices[stack[stack.length-1]] > prices[i]) {
+            const top = stack.pop();
+            answer[top] = i - top;
         }
         stack.push(i);
     }
     
-    // 스택에 남아있는 가격들 처리 (끝까지 가격이 떨어지지 않은 경우)
+    // 끝까지 가격이 떨어지지 않은 주식들
     while(stack.length) {
-        const prevIdx = stack.pop();
-        result[prevIdx] = len - 1 - prevIdx;
+        const top = stack.pop();
+        answer[top] = len - 1 - top;
     }
     
-    return result;
+    return answer;
 }
