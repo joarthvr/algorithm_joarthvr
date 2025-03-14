@@ -1,30 +1,32 @@
 function solution(x, y, n) {
-    // 시작점과 목표가 같으면 0 반환
     if (x === y) return 0;
+    if (x > y) return -1;
     
-    // 동적 프로그래밍 배열: dp[i]는 x에서 i까지 도달하는 최소 연산 횟수
-    // 불가능한 경우는 Infinity로 초기화
-    const dp = new Array(y + 1).fill(Infinity);
-    dp[x] = 0; // 시작점은 0번 연산
+    // 최적화: 배열 대신 객체 사용
+    const dist = {};
+    dist[x] = 0;
     
-    for (let i = x; i <= y; i++) {
-        // 현재 위치에 도달할 수 없는 경우 스킵
-        if (dp[i] === Infinity) continue;
+    // 최적화: 배열 대신 더 효율적인 큐 구현
+    const queue = [x];
+    let front = 0;
+    
+    while (front < queue.length) {
+        const current = queue[front++];
+        const nextCount = dist[current] + 1;
         
-        // 세 가지 연산 적용
-        if (i + n <= y) {
-            dp[i + n] = Math.min(dp[i + n], dp[i] + 1);
-        }
+        // 세 가지 가능한 다음 상태
+        const nextStates = [current + n, current * 2, current * 3];
         
-        if (i * 2 <= y) {
-            dp[i * 2] = Math.min(dp[i * 2], dp[i] + 1);
-        }
-        
-        if (i * 3 <= y) {
-            dp[i * 3] = Math.min(dp[i * 3], dp[i] + 1);
+        for (const next of nextStates) {
+            if (next === y) return nextCount;
+            
+            // 범위를 벗어나거나 이미 방문한 상태 스킵
+            if (next > y || dist[next] !== undefined) continue;
+            
+            dist[next] = nextCount;
+            queue.push(next);
         }
     }
     
-    // 도달할 수 없으면 -1 반환
-    return dp[y] === Infinity ? -1 : dp[y];
+    return -1;
 }
