@@ -20,14 +20,15 @@ function solution(id_list, report, k) {
         reportedObj[detail[1]]++;
     }
     
+    //객체를 순회하면 신고횟수가 일정이상이면 카운트
     
     for(const name of id_list){
         if(reportedObj[name] >= k){
-        for(let i = 0; i < length; i++){
-            if(reportObj[id_list[i]].has(name)){
-                result[i]++;    
+            for(let i = 0; i < length; i++){
+                if(reportObj[id_list[i]].has(name)){
+                    result[i]++;    
+                }
             }
-        }
         }
     }
     return result;
