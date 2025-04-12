@@ -1,16 +1,12 @@
 function solution(s){
-    let p = 0;
-    let y = 0;
-    s = s.toLowerCase();
-    for(let i = 0; i < s.length; i++){
-        if(s[i] === "p"){
-            p++;
-        }
-        if(s[i] === "y"){
-            y++;
-        }
-    }
-    console.log(p)
+    s = s.toLowerCase().split("");
+    const pCnt = s.reduce((acc, curr) => {
+    return curr === 'p' ? acc + 1 : acc;
+    }, 0)
+    const yCnt = s.reduce((acc, curr) => {
+    return curr === 'y' ? acc + 1 : acc;
+    }, 0)
     
-     return p === y ? true : false
+    return pCnt === yCnt ? true : false; 
+    
 }
