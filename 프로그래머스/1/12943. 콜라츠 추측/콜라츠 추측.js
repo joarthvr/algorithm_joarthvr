@@ -1,17 +1,9 @@
 function solution(num) {
-    let cnt = 0;
-    while(num !== 1){
-    if(num % 2 === 0){
-        num = num / 2;
-    }
-    else{
-        num = num * 3 + 1;
-    }
-       cnt++;
-        if(cnt === 500){
-            return -1;
-    }
-    }
-    console.log(cnt)
-    return cnt;
+    let i = 500;
+    while(--i){
+        if(num === 1) return 499 - i ; 
+        num = num % 2 === 0 ? num / 2 : num * 3 + 1;
+  }
+    return -1;
+    
 }
