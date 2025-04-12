@@ -1,9 +1,7 @@
 function solution(x, n) {
-    var answer = [];
-    let j = 1;
-    for(let i = 0; i < n; i++){
-        answer[i] = x * j;
-        j++;
-    }
-    return answer;
+    const answer = new Array(n).fill(0);
+    return answer.map((e,i)=>{
+        return (i+1)*x
+    })
+          
 }
