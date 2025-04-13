@@ -1,11 +1,5 @@
 
-function solution(arr)
-{
-    let ans = [];
-    for(let i = 0; i < arr.length; i++){
-        if(arr[i] === arr[i+1])
-            continue;
-            ans.push(arr[i]);
-    }
-   return ans;
+function solution(arr){
+    return arr.filter((e,i)=> e !== arr[i+1]);
+    
 }
