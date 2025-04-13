@@ -1,13 +1,10 @@
 function solution(s) {
-    if(s.length <4 || s.length > 6 || s.length === 5)
-        return false;
-    s = s.split("");
-    for(let i = 0; i < s.length; i++){
-        if(isNaN(s[i])){
-            return false;
-        }
-        if(isNaN(parseFloat(s[i]))){
-            return false;
+    const len = s.length;
+    if(len !== 4 && len !== 6) return false;
+    if(len === 4 || len === 6){
+         s = s.split("");
+        for(let i = 0; i < len; i++){
+            if(s[i].charCodeAt() >= 65) return false;
         }
     }
     return true;
