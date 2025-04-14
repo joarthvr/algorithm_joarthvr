@@ -1,9 +1,12 @@
 function solution(array, commands) {
-    let ans = [];
-    let tmp = [];
-    for(let i = 0; i < commands.length; i++){
-       tmp = array.slice(commands[i][0]-1,commands[i][1]).sort((a,b) => a-b);
-       ans[i] = tmp[commands[i][2]-1]
+    const result = [];
+    for(const command of commands){
+        let strIdx = command[0];
+        let endIdx = command[1];
+        let targetIdx = command[2];
+        
+        const tmpArr = array.slice(strIdx-1,endIdx).sort((a,b)=>a-b);
+        result.push(tmpArr[targetIdx-1]);
     }
-    return ans;
+    return result;
 }
