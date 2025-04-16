@@ -1,41 +1,37 @@
 function solution(arr) {
-    // 압축 결과를 저장할 객체
-    const count = { 0: 0, 1: 0 };
+    // 결과를 저장할 배열 [0의 개수, 1의 개수]
+    const answer = [0, 0];
     
-    // 재귀적으로 영역을 압축하는 함수
-    function compress(x, y, size) {
-        // 해당 영역의 첫 번째 값을 기준으로 설정
-        const value = arr[y][x];
+    function compress(x, y, n) {
+        // 영역의 첫 번째 값
+        const first = arr[y][x];
         
-        // 모든 값이 같은지 확인
-        let isUniform = true;
-        for (let i = y; i < y + size; i++) {
-            for (let j = x; j < x + size; j++) {
-                if (arr[i][j] !== value) {
-                    isUniform = false;
+        // 영역 내 모든 값이 같은지 빠르게 확인
+        let allSame = true;
+        for (let i = y; i < y + n; i++) {
+            for (let j = x; j < x + n; j++) {
+                if (arr[i][j] !== first) {
+                    allSame = false;
                     break;
                 }
             }
-            if (!isUniform) break;
+            if (!allSame) break;
         }
         
-        // 모든 값이 같으면 해당 값으로 압축
-        if (isUniform) {
-            count[value]++;
+        // 모든 값이 같으면
+        if (allSame) {
+            answer[first]++;
             return;
         }
         
-        // 값이 다르면 4개의 영역으로 분할하여 재귀적으로 압축
-        const newSize = size / 2;
-        compress(x, y, newSize);                       // 왼쪽 위
-        compress(x + newSize, y, newSize);             // 오른쪽 위
-        compress(x, y + newSize, newSize);             // 왼쪽 아래
-        compress(x + newSize, y + newSize, newSize);   // 오른쪽 아래
+        // 4등분하여 재귀 호출
+        const half = n / 2;
+        compress(x, y, half);               // 좌상단
+        compress(x + half, y, half);        // 우상단
+        compress(x, y + half, half);        // 좌하단
+        compress(x + half, y + half, half); // 우하단
     }
     
-    // 전체 배열에 대해 압축 시작
     compress(0, 0, arr.length);
-    
-    // 결과 반환
-    return [count[0], count[1]];
+    return answer;
 }
