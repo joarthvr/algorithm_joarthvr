@@ -1,7 +1,7 @@
 function solution(n) {
     // 삼각형을 표현할 2차원 배열 초기화
-    const triangle = Array.from({ length: n }, (_, i) => Array(i + 1).fill(0));
-    
+   const triangle = Array.from({length: n}, (_, i) => new Array(i+1).fill(0)); 
+    console.log(triangle)
     let number = 1; // 채울 숫자 시작값
     let row = 0; // 현재 행
     let col = 0; // 현재 열
