@@ -1,14 +1,16 @@
 function solution(s) {
-    let cnt = 0;
-    let zerocnt = 0;
-    let size = s.length;
-    while(s !== '1'){
-    size = s.length;
-    s = s.replaceAll("0","")
-    zerocnt +=  size - s.length;
-    s = Math.floor(s.length).toString(2);
-    cnt++;
+    //횟수와 제거된 모든 0의 개수
+    let zeroCnt = 0;
+    let tryCnt = 0;
+    
+    const transform = (str) =>{
+        if(str === '1') return;
+        const deleteZero = str.split("").reduce((acc, curr) => curr === '1' ? acc + '1' : acc, "");
+        zeroCnt += str.length - deleteZero.length;
+        tryCnt++;
+        const newStr = String(deleteZero.length.toString(2));
+        transform(newStr, zeroCnt, tryCnt);
     }
-    const ans = [cnt, zerocnt];
-    return ans;
+    transform(s);
+    return [tryCnt, zeroCnt]
 }
