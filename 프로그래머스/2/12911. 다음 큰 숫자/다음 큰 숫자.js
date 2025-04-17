@@ -1,11 +1,12 @@
 function solution(n) {
-    const k = n.toString(2);
-    const lenOne = k.replaceAll('0','').length
-    let lenOne2 = 0;
-    while(lenOne !== lenOne2){
-        n++;
-        const j = n.toString(2);
-        lenOne2 = j.replaceAll('0','').length
+    const binaryN = n.toString(2);
+    
+    const standard = binaryN.split("").reduce((acc,curr) => acc += curr ==='1',0);
+    while(1){
+        let i = ++n;
+        let binaryI = n.toString(2);
+        let cntOne = binaryI.split("").reduce((acc,curr) => acc += curr ==='1',0);
+        if(standard === cntOne) return i;
+        
     }
-    return n;
 }
