@@ -1,20 +1,14 @@
 function solution(n) {
     const MOD = 1000000007;
-    
-    
+    let result = 0;
+    let prev = 1;
+    let curr = 2;
     if (n === 1) return 1;
     if (n === 2) return 2;
-    
-    
-    let prev = 1; 
-    let curr = 2; 
-    
-    for (let i = 3; i <= n; i++) {
-        
-        const next = (prev + curr) % MOD;
+    for(let i = 3; i<=n; i++){
+        result = (prev + curr) % MOD;
         prev = curr;
-        curr = next;
+        curr = result;
     }
-    
-    return curr;
+    return result
 }
