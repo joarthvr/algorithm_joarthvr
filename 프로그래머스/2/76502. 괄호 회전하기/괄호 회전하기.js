@@ -1,53 +1,35 @@
-class Stack {
-    constructor() {
-        this.size = 0;
-        this.storage = new Object();
-    }
-    push(element) {
-        this.size++;
-        this.storage[this.size] = element;
-    }
-    pop() {
-        if (this.size === 0) return;
-        let removed = this.storage[this.size];
-        delete this.storage[this.size];
-        this.size--;
-        return removed;
-    }
-    top() {
-        return this.size === 0 ? undefined : this.storage[this.size];
-    }
-}
-
 function solution(s) {
-    let stack = new Stack();
-    let cnt = 0;
-    let strArray = s.split('');
-    
-    for (let j = 0; j < s.length; j++) {
-        stack = new Stack();  
-        for (let i = 0; i < strArray.length; i++) {
-            stack.push(strArray[i]);
-            if (stack.size > 1) {
-                let top1 = stack.pop();
-                let top2 = stack.pop();
-
-                if ((top2 === "[" && top1 === "]") || 
-                    (top2 === "(" && top1 === ")") || 
-                    (top2 === "{" && top1 === "}")) {
+    const isCorrectBrancket = (arr, startIndex) => {
+        const stack = [];
+        for(let i = 0; i < arr.length; i++){
+            const index = (startIndex+i) % arr.length;
+            if(stack.length > 0){
+                const itemBefore = stack[stack.length-1];
+                const item = arr[index];
+                if(itemBefore === '{' && item === '}'){ 
+                    stack.pop();
                     continue;
-                } else {
-                    stack.push(top2);
-                    stack.push(top1);
                 }
+                else if(itemBefore === '(' && item === ')' ){
+                    stack.pop();
+                    continue;
+                }
+                else if (itemBefore === '[' && item === ']') {
+                    stack.pop();
+                    continue;
+                }
+                stack.push(arr[index]);
+                continue;
             }
+                stack.push(arr[index]);
         }
         
-        if (stack.size === 0) cnt++;  // 스택이 비어있다면 균형이 맞음
-        
-        // 문자열 회전
-        strArray.push(strArray.shift());
+        return stack.length > 0 ? false : true;
     }
-    
-    return cnt;
+    let result = 0;
+    for(let i = 0; i < s.length; i++){
+        result = isCorrectBrancket(s,i) ? result + 1 : result;    
+    }
+  
+    return result;
 }
