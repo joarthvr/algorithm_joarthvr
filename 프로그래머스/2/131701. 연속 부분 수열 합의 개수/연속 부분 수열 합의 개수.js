@@ -1,25 +1,23 @@
 function solution(elements) {
-    const size = elements.length;
-    let set = new Set();
-    let sum = 0;
-    for(let i = 1; i <= size; i++){
-        sum = 0;
-        for(let j = 0; j < size; j++){
-              if (j === 0) { 
-                for (let k = 0; k<i; k++) {
-                    sum += elements[k];
-                }
+    const set = new Set([...elements]);
+    const len = elements.length;
+    set.add(elements.reduce((acc,e) => acc += e ,0));
+
+    for(let i = 2; i < len; i++){
+        for(let j = 0 ; j < len; j++){
+            let repeat = i;
+            let sum = 0;
+            let standard = j;
+            while(repeat--){
+                sum += elements[standard % len]
+                standard++;
             }
-            else{
-                sum -= elements[j-1];
-                sum += elements[(j+i-1) % size];
-                 
-                }
-               set.add(sum);
-            }
+            set.add(sum);
         }
-        return set.size;
     }
+    
+    return set.size;
+}
 
 
 
