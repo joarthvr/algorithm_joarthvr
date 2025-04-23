@@ -1,27 +1,24 @@
 function solution(progresses, speeds) {
-    let time = [];
-    let ans = [];
-    let j =1;
+    const deploy = [];
+    const result = [];
     for(let i = 0; i < progresses.length; i++){
-        time.push(Math.ceil((100 - progresses[i]) / speeds[i]))
+        const complete = Math.ceil((100 - progresses[i]) / speeds[i]);
+        deploy.push(complete);
     }
-    console.log(time)
-    for(let i = 0; i < progresses.length; i++){
-        if(time[i+1] - time[i] > 0 || i === time.length-1){
-            ans.push(1);
+    // console.log(deploy)
+    let prev = 0;
+    let next = 1;
+    for(let i = 0; i < deploy.length; i++){
+        if(deploy[next] <= deploy[prev]){
+            next++;
         }
-        if(time[i+1] - time[i] <= 0){
-            while(time[i+j] - time[i] <= 0){
-                j++;
-            }
-            ans.push(j);
-            i = i + j-1;
-            j = 1;
-            
+        else if(i === deploy.length-1 || deploy[next] > deploy[prev]){
+            result.push(next-prev);
+            // console.log(prev,next,i)
+            prev = next
+            next++;
         }
         
     }
-    return ans;
+    return result;
 }
-
-// Math.ceil(100 - progress[] / speed)
