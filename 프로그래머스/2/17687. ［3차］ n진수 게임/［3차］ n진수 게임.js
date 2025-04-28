@@ -1,19 +1,18 @@
 function solution(n, t, m, p) {
-    const converter = (num,jinsu) =>{
-        return Number(num).toString(jinsu).toUpperCase().split("");
+    let answer = '';
+    let numbers = '';
+    let num = 0;
+    
+    // 필요한 길이만큼만 진법 변환 문자열 생성
+    while (numbers.length < t * m) {
+        numbers += num.toString(n).toUpperCase();
+        num++;
     }
-    let result = "";
-    let i = 0;
-    const len = t * m;
-    const candidate = [];
-    while(len >= candidate.length ){
-        candidate.push(...converter(i,n));
-        i++;
+    
+    // 튜브의 순서에 해당하는 문자만 추출
+    for (let i = 0; i < t; i++) {
+        answer += numbers[p - 1 + i * m];
     }
-    let j = 0;
-    while(result.length !== t){
-        result += candidate[(p - 1) + (m*j)];
-        j++;
-    }
-    return result;
+    
+    return answer;
 }
