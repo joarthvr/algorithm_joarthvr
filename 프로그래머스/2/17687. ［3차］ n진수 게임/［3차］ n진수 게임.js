@@ -1,16 +1,19 @@
 function solution(n, t, m, p) {
-    let result = '';
-    let gameString = '';
-    let num = 0;
-
-    while (gameString.length < t * m) {
-        gameString += num.toString(n).toUpperCase();
-        num++;
+    const converter = (num,jinsu) =>{
+        return Number(num).toString(jinsu).toUpperCase().split("");
     }
-
-    for (let i = p - 1; i < t * m; i += m) {
-        result += gameString[i];
+    let result = "";
+    let i = 0;
+    const len = t * m;
+    const candidate = [];
+    while(len >= candidate.length ){
+        candidate.push(...converter(i,n));
+        i++;
     }
-
-    return result.slice(0, t);
+    let j = 0;
+    while(result.length !== t){
+        result += candidate[(p - 1) + (m*j)];
+        j++;
+    }
+    return result;
 }
