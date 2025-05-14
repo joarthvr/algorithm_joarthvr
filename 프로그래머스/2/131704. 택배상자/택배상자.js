@@ -1,18 +1,25 @@
 function solution(order) {
-    let result = 0;
     const stack = [];
-    let orderIndex = 0;  // order 배열의 인덱스를 관리
-    
-    for(let i = 1; i <= order.length; i++) {
-        stack.push(i);
-        
-        // 스택의 top이 현재 찾는 순서와 일치하면 처리
-        while(stack.length && stack[stack.length-1] === order[orderIndex]) {
-            stack.pop();
-            orderIndex++;
+    let current = 0;
+    let result = 0;
+    for(let i = 1; i <= order.length; i++){
+        if(order[current] === i){
+            current++;
             result++;
+            continue;
         }
+        while(stack[stack.length-1] === order[current]){
+            current++;
+            result++;
+            stack.pop();
+        }
+        stack.push(i);
+    }
+    while(stack.length > 0 && stack[stack.length-1] === order[current]){
+            stack.pop();
+            result++;
+            current++;
     }
     
-    return result;
+   return result;
 }
