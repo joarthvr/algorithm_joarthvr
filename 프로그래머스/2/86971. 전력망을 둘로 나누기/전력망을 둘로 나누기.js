@@ -6,40 +6,43 @@ function solution(n, wires) {
         graph[v2].push(v1);
     }
     
-    let minDiff = n;
+    let minDiff = Infinity;
     
-    // 각 간선을 하나씩 제거해보기
+    // 각 전선을 하나씩 끊어보기
     for (const [v1, v2] of wires) {
-        // v1에서 시작하는 컴포넌트 크기 계산 (v1-v2 간선 제외)
-        const count1 = countNodes(v1, v2, graph, n);
-        const count2 = n - count1;
+        // v1과 v2 사이의 전선 끊기
         
-        const diff = Math.abs(count1 - count2);
-        minDiff = Math.min(minDiff, diff);
+        // DFS로 v1에서 시작하는 컴포넌트 크기 계산
+        const size1 = getSize(v1, v2, graph, n);
+        const size2 = n - size1; // 두 번째 컴포넌트 크기
+        
+        // 차이 갱신
+        minDiff = Math.min(minDiff, Math.abs(size1 - size2));
     }
     
     return minDiff;
 }
 
-// 간선 하나를 제외한 컴포넌트 크기 계산
-function countNodes(start, except, graph, n) {
-    const visited = new Array(n + 1).fill(false);
-    let count = 0;
+// DFS로 컴포넌트 크기 계산
+function getSize(start, excluded, graph, n) {
+    const visited = Array(n + 1).fill(false);
     
     function dfs(node) {
         visited[node] = true;
-        count++;
+        let count = 1; // 현재 노드 포함
         
-        for (const neighbor of graph[node]) {
-            // 제외할 간선이 아니고, 아직 방문하지 않은 노드라면
-            if (!(node === start && neighbor === except) && 
-                !(node === except && neighbor === start) && 
-                !visited[neighbor]) {
-                dfs(neighbor);
+        for (const next of graph[node]) {
+            // 끊어진 전선이 아니고, 방문하지 않은 노드만 탐색
+            if (!visited[next] && !(
+                (node === start && next === excluded) || 
+                (node === excluded && next === start)
+            )) {
+                count += dfs(next); // 서브트리 크기 합산
             }
         }
+        
+        return count;
     }
     
-    dfs(start);
-    return count;
+    return dfs(start);
 }
