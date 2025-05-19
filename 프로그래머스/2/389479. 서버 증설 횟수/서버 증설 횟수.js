@@ -1,29 +1,26 @@
 function solution(players, m, k) {
-    //m명 늘어날 때마다 서버 1대가 추가로 필요
-    //m명 미만이라면 서버 증설이 필요하지 않음
-    //하나 증가하면 개수 카운트 증설된 서버느 k가 지나면 소멸
+    // 각 시간에 증설한 서버 수를 저장
+    const servers = new Array(24).fill(0);
+    let totalSetups = 0;
     
-    const serverArr = [];
-    let result = 0;
-    for(let i = 0; i < players.length; i++){
-        const player = players[i];
-        if(i >= k-1){
-             serverArr[i-k] = 0; // 갱신
+    for (let hour = 0; hour < 24; hour++) {
+        // 현재 시간에 운영 중인 서버 수 계산 (이전에 설치한 서버 중 아직 k시간이 지나지 않은 것들)
+        let currentServers = 0;
+        for (let prevHour = Math.max(0, hour - k + 1); prevHour < hour; prevHour++) {
+            currentServers += servers[prevHour];
         }
-        const serverCnt = serverArr.reduce((accu, curr) => accu += curr,0);
-        const neededServer = Math.floor(players[i] / m);
-        const serverDiff = neededServer - serverCnt;
         
-        if(serverCnt < neededServer) {
-            result += serverDiff;
-            serverArr[i] = serverDiff;
-        }
-        else{
-            serverArr[i] = 0;
-        }
-        // console.log(i,serverArr, serverCnt, result)
+        // 필요한 서버 수 계산 (n×m명 이상 (n+1)×m명 미만이면 n대 필요)
+        const neededServers = Math.floor(players[hour] / m);
         
+        // 추가로 필요한 서버 수 계산
+        const additionalServers = Math.max(0, neededServers - currentServers);
+        
+        if (additionalServers > 0) {
+            servers[hour] = additionalServers;
+            totalSetups += additionalServers;
+        }
     }
-    return result;
-  
+    
+    return totalSetups;
 }
