@@ -1,53 +1,44 @@
-function solution(orders, course) {
-    const answer = [];
+const combination = (targetSize, map, order, current, startIdx) => {
+    if(current.length === targetSize) {
+        map[current] = (map[current] || 0) + 1;
+        return;
+    }
+    for(let i = startIdx; i < order.length; i++){
+        combination(targetSize, map, order, current + order[i], i + 1);
+    }
     
-    // 각 코스 크기별로 처리
-    course.forEach(size => {
-        // 조합별 주문 횟수 저장
-        const comboCounts = {};
+}
+function solution(orders, course) {
+    let answer = [];
+    
+    //백트래킹을 활용한 조합
+    //다음 => 현재 체킹 + i+1 현재가 코스에 맞으면 푸시
+    //앤서에서 조건에 맞는지 검사
+    
+    
+    for(const size of course){
+        const comboMap = {};
         
-        // 각 손님의 주문마다 조합 생성
-        orders.forEach(order => {
-            // 주문 메뉴를 알파벳순으로 정렬
+        for(const order of orders){
             const sortedOrder = [...order].sort().join('');
-            
-            // 조합 찾기
-            findCombos(sortedOrder, size, 0, "", comboCounts);
-        });
-        
-        // 가장 많이 주문된 횟수 찾기 (최소 2번 이상)
+            combination(size, comboMap, sortedOrder, "", 0);
+        }
         let maxCount = 0;
-        for (const combo in comboCounts) {
-            if (comboCounts[combo] >= 2 && comboCounts[combo] > maxCount) {
-                maxCount = comboCounts[combo];
+        for(const combo in comboMap){
+            if(comboMap[combo] >= 2 && comboMap[combo] > maxCount){
+                maxCount = comboMap[combo];
             }
         }
-        
-        // 최대 주문 횟수인 조합만 결과에 추가
-        if (maxCount >= 2) {
-            for (const combo in comboCounts) {
-                if (comboCounts[combo] === maxCount) {
+        if(maxCount >= 2){
+            for(const combo in comboMap){
+                if(comboMap[combo] === maxCount){
                     answer.push(combo);
                 }
             }
         }
-    });
+        
+    }
     
-    // 알파벳 순으로 정렬
     return answer.sort();
 }
 
-// 백트래킹으로 조합 찾기
-function findCombos(order, targetSize, startIndex, currentCombo, comboCounts) {
-    // 목표 크기에 도달하면 카운트 증가
-    if (currentCombo.length === targetSize) {
-        comboCounts[currentCombo] = (comboCounts[currentCombo] || 0) + 1;
-        return;
-    }
-    
-    // 현재 위치부터 선택 가능한 모든 메뉴 시도
-    for (let i = startIndex; i < order.length; i++) {
-        // 현재 메뉴 추가하고 다음 단계로
-        findCombos(order, targetSize, i + 1, currentCombo + order[i], comboCounts);
-    }
-}
