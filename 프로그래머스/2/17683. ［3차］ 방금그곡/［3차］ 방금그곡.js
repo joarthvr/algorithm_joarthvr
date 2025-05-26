@@ -1,19 +1,18 @@
 function solution(m, musicinfos) {
     // 샤프 변환 함수
     const convertSharp = (melody) => {
-        if(!melody) return "";  // 빈 문자열 체크
+        if(!melody) return ""; 
         return melody
-            .replace(/C#/g, 'c')
-            .replace(/D#/g, 'd')
-            .replace(/F#/g, 'f')
-            .replace(/G#/g, 'g')
-            .replace(/A#/g, 'a')
-            .replace(/B#/g, 'b');
+            .replaceAll('C#', 'c')
+            .replaceAll('D#', 'd')
+            .replaceAll('F#', 'f')
+            .replaceAll('G#', 'g')
+            .replaceAll('A#', 'a')
+            .replaceAll('B#', 'b');
     };
     
     // 시간 계산 함수
     const getPlayTime = (start, end) => {
-        try {
             const [startH, startM] = start.split(':').map(Number);
             const [endH, endM] = end.split(':').map(Number);
             
@@ -24,10 +23,7 @@ function solution(m, musicinfos) {
             const startMinutes = startH * 60 + startM;
             const endMinutes = endH * 60 + endM;
             
-            return Math.max(0, endMinutes - startMinutes);  // 음수 방지
-        } catch(e) {
-            return 0;
-        }
+            return Math.max(0, endMinutes - startMinutes); 
     };
     
     // 재생 멜로디 생성 함수
