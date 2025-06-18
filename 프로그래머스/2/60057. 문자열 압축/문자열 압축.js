@@ -1,24 +1,26 @@
 function solution(s) {
-      let min = s.length;
+    let min = s.length;
     
-    for (let unit = 1; unit <= s.length / 2; unit++) {
-        let compressed = "";
+    for(let unit = 1; unit <= s.length / 2; unit++){
         let cnt = 1;
-        let prev = s.substring(0, unit);
+        let compressed = ""
+        let prev = s.slice(0,unit);
         
-        for (let i = unit; i < s.length; i += unit) {
-            let curr = s.substring(i, i + unit);
-            if (prev === curr) {
+        for(let i = unit; i < s.length; i+= unit){
+            const curr = s.slice(i, i + unit);
+            if(prev === curr){
                 cnt++;
-            } else {
+            }
+            else {
                 compressed += (cnt > 1 ? cnt : "") + prev;
                 prev = curr;
                 cnt = 1;
             }
         }
-        compressed += (cnt > 1 ? cnt : "") + prev;
-        min = Math.min(min, compressed.length);
+        
+            compressed += (cnt > 1 ? cnt : "") + prev;
+          
+            min = Math.min(min, compressed.length);
     }
-    
     return min;
 }
