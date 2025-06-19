@@ -1,40 +1,38 @@
 function solution(relation) {
-    const col = relation[0].length;
-    const keySet = new Set();
-    const candidateKeys = [];
+    const [rows, cols] = [relation.length, relation[0].length];
+    const keys = [];
     
-    // 1. 모든 컬럼 조합 생성 (비트마스크 활용)
-    for (let i = 1; i < (1 << col); i++) {
-        // 2. 최소성 체크 (이미 후보키로 등록된 부분집합이면 패스)
-        let isMinimal = true;
-        for (const key of candidateKeys) {
-            if ((key & i) === key) {
-                isMinimal = false;
-                break;
-            }
-        }
-        if (!isMinimal) continue;
+    // 모든 속성 조합 시도
+    for (let mask = 1; mask < (1 << cols); mask++) {
+        // 유일성 검사
+        const set = new Set();
+        let unique = true;
         
-        // 3. 유일성 체크
-        keySet.clear();
-        let isUnique = true;
         for (const row of relation) {
-            let keyStr = '';
-            for (let j = 0; j < col; j++) {
-                if (i & (1 << j)) {
-                    keyStr += row[j] + '|';
-                }
+            let key = "";
+            for (let i = 0; i < cols; i++) {
+                if (mask & (1 << i)) key += row[i] + "|";
             }
-            if (keySet.has(keyStr)) {
-                isUnique = false;
+            if (set.has(key)) {
+                unique = false;
                 break;
             }
-            keySet.add(keyStr);
+            set.add(key);
         }
-        if (isUnique) {
-            candidateKeys.push(i);
+        
+        if (!unique) continue;
+        
+        // 최소성 검사  
+        let minimal = true;
+        for (const existingKey of keys) {
+            if ((existingKey & mask) === existingKey) {
+                minimal = false;
+                break;
+            }
         }
+        
+        if (minimal) keys.push(mask);
     }
     
-    return candidateKeys.length;
+    return keys.length;
 }
