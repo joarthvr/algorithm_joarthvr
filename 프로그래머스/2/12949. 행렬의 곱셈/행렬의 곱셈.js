@@ -4,19 +4,15 @@ function solution(arr1, arr2) {
     const r2 = arr2.length;
     const c2 = arr2[0].length;
     
-    const result = [];
+    const arr = Array.from({ length: r1 }, () => new Array(c2).fill(0));
+    
     
     for(let i = 0; i < r1; i++){
-        const tmp = [];
         for(let j = 0; j < c2; j++){
-            let sum = 0;
             for(let k = 0; k < c1; k++){
-                sum += arr1[i][k] * arr2[k][j];
+                arr[i][j] += arr1[i][k] * arr2[k][j]; 
             }
-            
-            tmp.push(sum);
         }
-        result.push(tmp)
     }
-    return result;
+    return arr;
 }
