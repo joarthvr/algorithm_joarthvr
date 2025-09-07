@@ -1,21 +1,22 @@
 function solution(arr1, arr2) {
-    let rowsA = arr1.length, colsA = arr1[0].length;
-    let rowsB = arr2.length, colsB = arr2[0].length;
+    const r1 = arr1.length;
+    const c1 = arr1[0].length;
+    const r2 = arr2.length;
+    const c2 = arr2[0].length;
     
-    let ans = Array.from(Array(rowsA), () => new Array(colsB).fill(0));
+    const result = [];
     
-    for (let i = 0; i < rowsA; i++) {
-        for (let j = 0; j < colsB; j++) {
-            for (let k = 0; k < colsA; k++) {
-                ans[i][j] += arr1[i][k] * arr2[k][j];
+    for(let i = 0; i < r1; i++){
+        const tmp = [];
+        for(let j = 0; j < c2; j++){
+            let sum = 0;
+            for(let k = 0; k < c1; k++){
+                sum += arr1[i][k] * arr2[k][j];
             }
+            
+            tmp.push(sum);
         }
+        result.push(tmp)
     }
-    
-    return ans;
+    return result;
 }
-
-//arr1의 행을 가져온다
-//가져온 행 안의 원소들을 차례로 arr2의 첫 열의 원소들을 곱한다
-//곱한 갑을 더한다
-//더한값을 저장한다
