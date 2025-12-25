@@ -1,13 +1,12 @@
 function solution(n) {
-    //1. n의 약수를 구한다
-    //2. n약수를 모두 더한다
-    let sum = 0;
-    let tmp = 0;
-    for(let i = 1; i <= n; i++){
+    if(n===1) return 1;
+    const len = Math.floor(n/2);
+    const set = new Set();
+    for(let i = 1; i < len; i++){
         if(n % i === 0){
-            tmp = n/i;
-            sum += tmp + i;
+            set.add(n / i);
+            set.add(i);
         }
     }
-    return sum/2;
+    return [...set].reduce((acc,cur) => acc += cur, 0)
 }
