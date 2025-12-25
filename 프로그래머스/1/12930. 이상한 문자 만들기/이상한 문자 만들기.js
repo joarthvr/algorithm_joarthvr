@@ -1,26 +1,13 @@
 function solution(s) {
-    var answer = '';
-    let cnt = 0;
-    for(let i = 0; i < s.length; i++){
-        if(s[i] === ' '){
-            cnt = 0;
-             answer += ' ';
-            continue;
-        }
-        if(cnt % 2 === 0){
-            answer += s[i].toUpperCase();
-            cnt++;
-            continue;
-        }
-        if(cnt % 2 === 1){
-            answer += s[i].toLowerCase();
-            cnt++;
-            continue;
-        }
-    }
-    return answer;
+    return s.split(" ").map((word) => { // 1. 공백 기준으로 단어별로 자름 (word는 문자열)
+        
+        // 2. 문자열(word)은 map을 못 쓰므로, split("")으로 글자 배열로 만듦
+        return word.split("").map((char, index) => { 
+            
+            // 3. 짝수 인덱스는 대문자, 홀수는 소문자 (소문자 처리가 있어야 완벽합니다)
+            return index % 2 === 0 ? char.toUpperCase() : char.toLowerCase();
+            
+        }).join(""); // 4. 글자 배열을 다시 단어 문자열로 합침
+        
+    }).join(" "); // 5. 단어들을 다시 공백을 넣어 문장으로 합침
 }
-
-//전부 분리
-//공백이면 세는 거 0으로 초기화
-//철자면 홀수인지 짝수인지 확인 후 어퍼 로어 케이스
