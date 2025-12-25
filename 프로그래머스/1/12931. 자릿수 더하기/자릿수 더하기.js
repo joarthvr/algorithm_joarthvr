@@ -1,14 +1,16 @@
 function solution(n){
-    //1. 각 자리수의 자연수를 구한다
-    //2. 구한 자연수를 모두 더한다 
+    const len = String(n).length -1;
     
     let sum = 0;
-    n = n + "";
-    console.log(n.split(""));
+    for(let i = len; i >= 0; i--){
+        const pos = 10**i;
+        const tmp = Math.floor(n / pos); 
+        
+        sum += tmp;
+        n = n % pos;
     
-    for(let i = 0; i < n.length; i++){
-        sum += Math.floor(n[i]);
+    
+
     }
-    
     return sum;
 }
