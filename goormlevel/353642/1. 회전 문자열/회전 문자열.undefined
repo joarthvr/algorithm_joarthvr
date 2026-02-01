@@ -1,0 +1,25 @@
+const fs = require('fs');
+
+// 표준 입력(0)으로부터 전체 데이터를 읽어옵니다.
+try {
+    const input = fs.readFileSync(0).toString().trim();
+
+    if (!input) {
+        process.exit();
+    }
+
+    // 180도 회전 로직
+    const result = input
+        .split('')
+        .reverse()
+        .map(c => {
+            if (c === '6') return '9';
+            if (c === '9') return '6';
+            return c;
+        })
+        .join('');
+
+    process.stdout.write(result + '\n');
+} catch (e) {
+    // 혹시 모를 에러 방지
+}
