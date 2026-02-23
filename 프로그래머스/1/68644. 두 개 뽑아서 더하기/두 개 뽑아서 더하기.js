@@ -1,9 +1,11 @@
 function solution(numbers) {
-    const tmp = [];
-    for(let i = 0; i < numbers.length; i++){
-        for(let j = i + 1 ; j < numbers.length; j++ ){
-            tmp.push(numbers[i] + numbers[j]);
+    const result = [];
+    const len = numbers.length;
+    for(let i = 0; i < len; i++){
+        for(let j = i + 1; j < len; j++){
+            result.push(numbers[i] + numbers[j]);
         }
     }
-    return ([...new Set(tmp)].sort((a,b) => a-b));
+    return [...new Set(result)].sort((a,b) => a-b);
+    
 }
