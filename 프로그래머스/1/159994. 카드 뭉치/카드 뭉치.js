@@ -1,18 +1,16 @@
 function solution(cards1, cards2, goal) {
-    
-    for(let i = 0; i < 20; i++){
-        if(goal[0] === cards1[0]){
-            goal.shift();
+    for(let i = 0; i < goal.length; i++){
+        const word = goal[i];
+        
+        if(cards1[0] === word){
             cards1.shift();
-            console.log(goal)
-            continue;
         }
-        if(goal[0] === cards2[0]){
-            goal.shift();
+        else if(cards2[0] === word){
             cards2.shift();
-            console.log(goal)
-            continue;
+        }
+        else{
+            return 'No';
         }
     }
-    return goal.length === 0? "Yes" : "No";
+    return 'Yes';
 }
