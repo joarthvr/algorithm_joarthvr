@@ -1,12 +1,15 @@
 function solution(participant, completion) {
-    var answer = '';
-    participant.sort();
-    completion.sort();
-    for(var i = 0 ; i < participant.length; i++){
-        if(participant[i] !== completion[i]){
-            answer = participant[i];
-            break;
-        }
+    const object = {};
+    
+    for(let i = 0; i < participant.length; i++){
+        object[participant[i]] = (object[participant[i]] || 0) + 1
     }
-    return answer;
+    for(const p of completion){
+        object[p] = object[p] - 1;          
+    }
+   for(let i = 0; i < participant.length; i++){
+       if(object[participant[i]]){
+           return participant[i];
+       }   
+   }
 }
