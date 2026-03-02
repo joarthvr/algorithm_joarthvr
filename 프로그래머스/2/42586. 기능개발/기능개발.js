@@ -1,24 +1,20 @@
 function solution(progresses, speeds) {
-    const deploy = [];
     const result = [];
-    for(let i = 0; i < progresses.length; i++){
-        const complete = Math.ceil((100 - progresses[i]) / speeds[i]);
-        deploy.push(complete);
+    const len = progresses.length;
+    const expectedDays = [];
+    for(let i = 0; i < len; i++){
+        const expectedDay = Math.ceil((100 - progresses[i]) / speeds[i]);
+        expectedDays.push(expectedDay);
     }
-    // console.log(deploy)
-    let prev = 0;
-    let next = 1;
-    for(let i = 0; i < deploy.length; i++){
-        if(deploy[next] <= deploy[prev]){
-            next++;
+    
+    while(expectedDays.length > 0){
+        const front = expectedDays.shift();
+        let idx = 1;
+        while(front >= expectedDays[0]){
+            idx++;   
+            expectedDays.shift();
         }
-        else if(i === deploy.length-1 || deploy[next] > deploy[prev]){
-            result.push(next-prev);
-            // console.log(prev,next,i)
-            prev = next
-            next++;
-        }
-        
+        result.push(idx);
     }
     return result;
 }
