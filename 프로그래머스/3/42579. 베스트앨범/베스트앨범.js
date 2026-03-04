@@ -1,35 +1,28 @@
 function solution(genres, plays) {
-  let answer = [];
-  const genresObj = {};
-  const playObj = {};
-
-  // ➊ 장르별 총 재생 횟수와 각 곡의 재생 횟수 저장
-  for (let i = 0; i < genres.length; i++) {
-    genre = genres[i];
-    play = plays[i];
-
-    if (!(genre in genresObj)) {
-      genresObj[genre] = [];
-      playObj[genre] = 0;
+    const ans = [];
+    
+    const playObj = {}; // genre : total
+    const genreObj = {}; // genre: [ [idx, plays], ...]
+    
+    for(let i = 0; i < genres.length; i++){
+        const genre = genres[i];
+        const play = plays[i];
+        
+        if(!(genre in genreObj)){
+            genreObj[genre] = [];
+            playObj[genre] = 0;
+        }
+        
+        genreObj[genre].push([i, play]);
+        playObj[genre] += play;
     }
-
-    genresObj[genre].push([i, play]);
-    playObj[genre] += play;
-  }
-
-  // ➋ 총 재생 횟수가 많은 장르순으로 정렬
-  sortedGenres = Object.keys(playObj).sort((a, b) => {
-    return playObj[b] - playObj[a];
-  });
-
-  // ➌ 각 장르 내에서 노래를 재생 횟수 순으로 정렬해 최대 2곡까지 선택
-  for (const genre of sortedGenres) {
-    sortedSongs = genresObj[genre].sort((a, b) => {
-      return a[1] === b[1] ? a[0] - b[0] : b[1] - a[1];
-    });
-
-    answer.push(...sortedSongs.slice(0, 2).map((song) => song[0]));
-  }
-
-  return answer;
+    
+    //정렬
+    const sortedGenres = Object.keys(playObj).sort((a,b) => playObj[b] - playObj[a]);
+    for(const sortedGenre of sortedGenres){
+        genreObj[sortedGenre].sort((a,b) => b[1] - a[1]);
+        const top2 = genreObj[sortedGenre].slice(0,2).map((x) => x[0]);
+        ans.push(...top2)
+    }
+    return ans;
 }
