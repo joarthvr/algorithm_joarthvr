@@ -1,35 +1,32 @@
 function solution(id_list, report, k) {
-    const length = id_list.length;
+    const ans = [];
     const reportObj = {};
     const reportedObj = {};
-    
-    //객체 세팅
-    for(const name of id_list){
-        reportObj[name] = new Set(); 
-        reportedObj[name] = 0; 
-    }
-    //결과 배열
-    const result = new Array(length).fill(0);
-    //중복 리포트 삭제
-    report = [...new Set(report)];
-    
-    //신고 현황을 저장한다
-    for(const circumstance of report){
-        let detail = circumstance.split(" ");
-        reportObj[detail[0]].add(detail[1]);
-        reportedObj[detail[1]]++;
-    }
-    
-    //객체를 순회하면 신고횟수가 일정이상이면 카운트
-    
-    for(const name of id_list){
-        if(reportedObj[name] >= k){
-            for(let i = 0; i < length; i++){
-                if(reportObj[id_list[i]].has(name)){
-                    result[i]++;    
-                }
-            }
+    for(const line of report){
+        const [reporter, reported] = line.split(" ");
+        if(!(reporter in reportObj)) reportObj[reporter] = [];
+        
+        if(!(reported in reportedObj)) reportedObj[reported] = 0;
+        
+        if(!reportObj[reporter].includes(reported)) {
+            reportObj[reporter].push(reported);
+            reportedObj[reported] += 1;
         }
     }
-    return result;
+    const overK = Object.keys(reportedObj).filter((e) => reportedObj[e] >= k);
+    for(const user of id_list){
+        let sum = 0
+        for(let i = 0; i < overK.length; i++){
+            if((reportObj[user] ?? []).includes(overK[i])){
+                sum++;
+            }
+        }
+        ans.push(sum);
+    }
+    return ans;
 }
+
+// 한번에 한명의 유저 신고 (중복가능 제한없음)
+// k번 이상 신고될 시 정지
+// 해당유저 신고한 유저 정지 사실 메일 발송
+// 단, 한번에 신고를 처리해서 메일을 이 때 발송함
