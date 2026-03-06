@@ -1,44 +1,42 @@
-const combination = (targetSize, map, order, current, startIdx) => {
-    if(current.length === targetSize) {
-        map[current] = (map[current] || 0) + 1;
-        return;
-    }
-    for(let i = startIdx; i < order.length; i++){
-        combination(targetSize, map, order, current + order[i], i + 1);
-    }
-    
-}
 function solution(orders, course) {
-    let answer = [];
+    const ans = [];
     
-    //백트래킹을 활용한 조합
-    //다음 => 현재 체킹 + i+1 현재가 코스에 맞으면 푸시
-    //앤서에서 조건에 맞는지 검사
-    
-    
-    for(const size of course){
-        const comboMap = {};
-        
-        for(const order of orders){
-            const sortedOrder = [...order].sort().join('');
-            combination(size, comboMap, sortedOrder, "", 0);
-        }
-        let maxCount = 0;
-        for(const combo in comboMap){
-            if(comboMap[combo] >= 2 && comboMap[combo] > maxCount){
-                maxCount = comboMap[combo];
-            }
-        }
-        if(maxCount >= 2){
-            for(const combo in comboMap){
-                if(comboMap[combo] === maxCount){
-                    answer.push(combo);
+    function combination(arr, r){
+        const result = [];
+        function dfs(current, idx){
+            if(current.length === r){
+                    result.push([...current]);
+                    return;
                 }
+            for(let i = idx; i < arr.length; i++){
+                current.push(arr[i])
+                dfs(current, i+1);
+                current.pop();
             }
         }
-        
+        dfs([], 0);
+        return result;
     }
     
-    return answer.sort();
+    
+    for(const c of course){
+        const menu = [];
+        for(const order of orders){
+            const orderedArr = order.split("").sort();
+            const combi = combination(orderedArr, c);
+            menu.push(...combi);
+            }
+    const countObj = {}
+    for(const m of menu){
+        const key = m.join('');
+        countObj[key] = (countObj[key] || 0) + 1
+    }
+    const max = Math.max(...Object.values(countObj));
+    for(const [key, value] of Object.entries(countObj)){
+        if(max > 1 && value === max){
+            ans.push(key);
+        }
+    }
+    }
+    return ans.sort();
 }
-
