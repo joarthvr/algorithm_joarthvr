@@ -1,9 +1,13 @@
 function solution(phone_book) {
-    phone_book.sort();
-    
-    for (let i = 0; i < phone_book.length - 1; i++) {
-        if (phone_book[i + 1].startsWith(phone_book[i])) {
-            return false;
+    const set = new Set(phone_book);
+
+    for (const phone of phone_book) {
+        let prefix = "";
+        for (const char of phone) {
+            prefix += char;
+            if (prefix !== phone && set.has(prefix)) {
+                return false;
+            }
         }
     }
     return true;
