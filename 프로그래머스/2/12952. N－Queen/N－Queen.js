@@ -1,34 +1,27 @@
 function solution(n) {
-  let results = 0;
-  const queens = new Array(n).fill(-1);
+  let ans = 0;
 
-  function isValid(row) {
-    for (let i = 0; i < row; i++) {
-      // 주어진 식을 활용한 검증
-      if (
-        Math.abs(row - i) === Math.abs(queens[row] - queens[i]) ||
-        queens[i] === queens[row]
-      ) {
-        return false;
-      }
-    }
-    return true;
-  }
+  const col = new Array(n).fill(false);
+  const diag1 = new Array(2*n).fill(false);
+  const diag2 = new Array(2*n).fill(false);
 
-  function backtrack(row) {
+  function dfs(row) {
     if (row === n) {
-      results++;
+      ans++;
       return;
     }
 
-    for (let col = 0; col < n; col++) {
-      queens[row] = col;
-      if (isValid(row)) {
-        backtrack(row + 1);
-      }
+    for (let c = 0; c < n; c++) {
+      if (col[c] || diag1[row+c] || diag2[row-c+n]) continue;
+
+      col[c] = diag1[row+c] = diag2[row-c+n] = true;
+
+      dfs(row + 1);
+
+      col[c] = diag1[row+c] = diag2[row-c+n] = false;
     }
   }
 
-  backtrack(0);
-  return results;
+  dfs(0);
+  return ans;
 }
