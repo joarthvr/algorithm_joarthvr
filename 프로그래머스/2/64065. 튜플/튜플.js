@@ -1,13 +1,13 @@
 function solution(s) {
-    s = s.substring(2, s.length-2);
-    s = s.split('},{').map((e) => e.split(',')).sort((a,b) => a.length - b.length);
-
-    const result = [];
-    for(const element of s){
-        for(let i = 0; i < element.length; i++){
-            const candidate = Number(element[i]);
-            if(!result.includes(candidate)) result.push(candidate);
+    const obj = {};
+    s = s.slice(2,s.length-2).split('},{').map((e) => e.split(",")).join().split(',');
+    console.log(s)
+    for(let i = 0; i < s.length; i++){
+        if(Number(s[i]) >= 1 && Number(s[i]) < 100000){
+            obj[s[i]] = (obj[s[i]] || 0) + 1;
         }
+        
     }
-    return result;
+    const keys = Object.keys(obj).sort((a,b) => obj[b] - obj[a]);
+    return keys.map(Number)
 }
