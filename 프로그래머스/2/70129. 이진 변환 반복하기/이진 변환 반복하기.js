@@ -1,16 +1,23 @@
 function solution(s) {
-    //횟수와 제거된 모든 0의 개수
-    let zeroCnt = 0;
-    let tryCnt = 0;
-    
-    const transform = (str) =>{
-        if(str === '1') return;
-        const deleteZero = str.split("").reduce((acc, curr) => curr === '1' ? acc + '1' : acc, "");
-        zeroCnt += str.length - deleteZero.length;
-        tryCnt++;
-        const newStr = String(deleteZero.length.toString(2));
-        transform(newStr, zeroCnt, tryCnt);
+    let count = 0;
+    let deletedZ = 0;
+    function calculate(e){
+        if(e === 1){
+            return 1;
+        }
+        deletedZ++;
     }
-    transform(s);
-    return [tryCnt, zeroCnt]
+    while(s !== "1"){
+        s = s.split("").filter((e) => {
+            if(e === "0") deletedZ++;
+            return e === "1";
+        });
+        s = s.length.toString(2);
+        count++;
+    }
+    return [count, deletedZ];
 }
+
+//s가 1이 될때까지 변환 횟수와 제거된 0의 개수
+
+
