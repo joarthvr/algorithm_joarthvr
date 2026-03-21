@@ -1,32 +1,31 @@
 function solution(n, q, ans) {
-    let count = 0;
-    const arr = Array.from({ length: n }, (_, i) => i + 1);
-    const qSets = q.map(v => new Set(v));
-    
-    function isValid(current) {
-        for (let i = 0; i < q.length; i++) {
-            let match = 0;
-            for (const num of current) {
-                if (qSets[i].has(num)) match++;
+    let result = 0;
+    const arr = Array.from({length : n}, (_,i)=>i+1);
+    const qSets = q.map((e)=>new Set(e));
+    function isVaild(arr){
+        
+        for(let i = 0; i < qSets.length; i++){
+            let cnt = 0;
+            for(let j = 0; j < arr.length; j++){
+                if(qSets[i].has(arr[j])) cnt++;
             }
-            if (match !== ans[i]) return false;
+            if(cnt !== ans[i]) return false;
         }
         return true;
     }
-
-    function dfs(start, current) {
-        if (current.length === 5) {
-            if (isValid(current)) count++;
+    
+    function dfs (current, idx){
+        if(current.length === 5){
+            if(isVaild(current)) result++;
             return;
         }
-
-        for (let i = start; i < arr.length; i++) {
+        for(let i = idx; i < arr.length; i++){
             current.push(arr[i]);
-            dfs(i + 1, current);
+            dfs(current, i + 1);
             current.pop();
         }
     }
-
-    dfs(0, []);
-    return count;
+    dfs([],0);
+    
+    return result;
 }
