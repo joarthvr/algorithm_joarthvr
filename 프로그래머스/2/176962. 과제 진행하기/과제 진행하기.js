@@ -1,46 +1,46 @@
 function solution(plans) {
-    const tasks = plans.map(([name, time, duration]) => {
-        const [h, m] = time.split(':').map(Number);
-        return [name, h * 60 + m, Number(duration)];
-    }).sort((a, b) => a[1] - b[1]);
+    //1. 시간 -> 분으로 교체
+    plans = plans.map((plan) => {
+        const [h, m] = plan[1].split(':');
+        return [plan[0], Number(h) * 60 + Number(m), Number(plan[2])];
+    }).sort((a,b) => a[1] - b[1]);
     
-    const stack = [];
+    //2. 주요 로직 스택 시뮬레이션
+    const stack = []; // 이름, 남은 시간
     const result = [];
     
-    for (let i = 0; i < tasks.length; i++) {
-        const [name, start, duration] = tasks[i];
-        
-        if (i === tasks.length - 1) {
-            // 마지막 과제
-            result.push(name);
-            while (stack.length > 0) {
+    for(let i = 0; i < plans.length; i++){
+         const [currName, currTime, currDuration] = plans[i]
+        if(i === plans.length - 1){
+            result.push(currName)
+            while(stack.length > 0){
                 result.push(stack.pop()[0]);
             }
-        } else {
-            const nextStart = tasks[i + 1][1];
-            const availableTime = nextStart - start;
-            
-            if (duration <= availableTime) {
-                result.push(name);
-                let remainingTime = availableTime - duration;
-                
-                // 중단된 과제들 처리 (LIFO)
-                while (remainingTime > 0 && stack.length > 0) {
-                    const [pausedName, pausedDuration] = stack.pop();
-                    
-                    if (pausedDuration <= remainingTime) {
-                        result.push(pausedName);
-                        remainingTime -= pausedDuration;
-                    } else {
-                        stack.push([pausedName, pausedDuration - remainingTime]);
-                        remainingTime = 0;
-                    }
+        }
+        else {
+            const nextTime = plans[i + 1][1];
+            let availableTime = nextTime - currTime;
+                if(currDuration <= availableTime){
+                    result.push(currName);
+                    availableTime -= currDuration;
+                    while(stack.length > 0 && availableTime > 0){
+                        let [pausedName, pausedTime] = stack.pop();
+                        if(pausedTime <=availableTime){
+                            result.push(pausedName);
+                            availableTime -= pausedTime;
+                        }
+                        else{
+                            pausedTime -= availableTime;
+                            stack.push([pausedName, pausedTime]);
+                            availableTime = 0;
+                        }
+                    } 
                 }
-            } else {
-                stack.push([name, duration - availableTime]);
+            else{
+                stack.push([currName, currDuration - availableTime]);
             }
         }
+        
     }
-    
     return result;
 }
