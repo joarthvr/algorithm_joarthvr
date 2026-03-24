@@ -1,5 +1,4 @@
 function solution(k, d) {
-    // const limit = d * d;
     let result = 0;
     for(let x = 0; x * k <= d; x++){
         const kx = k * x;
