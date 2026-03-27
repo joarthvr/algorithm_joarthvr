@@ -1,15 +1,12 @@
 function solution(targets) {
-    targets.sort((a, b) => a[1] - b[1]);
-
-    let count = 0;
+    targets.sort((a,b)=>a[1] - b[1]);
     let last = -1;
-
-    for (const [s, e] of targets) {
-        if (last <= s) {
-            count++;
+    let ans = 0;
+    for(const [s,e] of targets){
+        if(last <= s){
+            ans++;
             last = e;
         }
     }
-
-    return count;
+    return ans;
 }
