@@ -21,11 +21,11 @@ class Heap {
         if (this.heap.length === 0) return undefined;
         if (this.heap.length === 1) return this.heap.pop();
 
-        const t = this.heap[0];
+        const top = this.heap[0];
         this.heap[0] = this.heap.pop();
 
-        const len = this.heap.length;
         let idx = 0;
+        const len = this.heap.length;
 
         while (true) {
             const l = idx * 2 + 1;
@@ -34,14 +34,13 @@ class Heap {
 
             if (l < len && this.compare(this.heap[l], this.heap[c]) < 0) c = l;
             if (r < len && this.compare(this.heap[r], this.heap[c]) < 0) c = r;
-
-            if (idx === c) break;
+            if (c === idx) break;
 
             [this.heap[idx], this.heap[c]] = [this.heap[c], this.heap[idx]];
             idx = c;
         }
 
-        return t;
+        return top;
     }
 
     peek() {
@@ -52,14 +51,23 @@ class Heap {
         return this.heap.length;
     }
 }
+
 function solution(n, works) {
-    const maxHeap = new Heap((a,b) => b-a);
-    for(const w of works) maxHeap.push(w);
-    for(let i = 0; i < n; i++){
-        let max = maxHeap.pop();
-        if(max === 0) return 0;
-        max--;
-        maxHeap.push(max);
+    const total = works.reduce((sum, work) => sum + work, 0);
+    if (total <= n) return 0;
+
+    const maxHeap = new Heap((a, b) => b - a);
+
+    for (const w of works) {
+        maxHeap.push(w);
     }
-    return maxHeap.heap.reduce((acc, cur)=> acc += cur ** 2 ,0)
+
+    for (let i = 0; i < n; i++) {
+        let max = maxHeap.pop();
+        if (max <= 0) return 0;
+
+        maxHeap.push(max - 1);
+    }
+
+    return maxHeap.heap.reduce((acc, cur) => acc + cur * cur, 0);
 }
