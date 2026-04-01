@@ -1,51 +1,41 @@
-class Heap {
+class Heap{
     constructor(compare){
         this.heap = [];
         this.compare = compare;
     }
-
-    push(value){
-        this.heap.push(value);
+    push(v){
+        this.heap.push(v);
         let idx = this.heap.length - 1;
-
-        while (idx > 0) {
-            const pI = Math.floor((idx - 1) / 2);
-            if (this.compare(this.heap[idx], this.heap[pI]) >= 0) break;
-
-            [this.heap[pI], this.heap[idx]] = [this.heap[idx], this.heap[pI]];
-            idx = pI;
+        while(idx > 0){
+            const p = Math.floor((idx - 1) / 2);
+            if(this.compare(this.heap[p], this.heap[idx]) <= 0) break;
+            [this.heap[p], this.heap[idx]] = [this.heap[idx], this.heap[p]];
+            idx = p;
         }
     }
-
     pop(){
-        if (this.heap.length === 0) return undefined;
-        if (this.heap.length === 1) return this.heap.pop();
-
-        const t = this.heap[0];
+        if(this.heap.length === 0) return undefined;
+        if(this.heap.length === 1) return this.heap.pop();
+        const top = this.heap[0];
         this.heap[0] = this.heap.pop();
         let idx = 0;
         const len = this.heap.length;
-
-        while (true) {
+        while(true){
+            let c = idx;
             const l = idx * 2 + 1;
             const r = idx * 2 + 2;
-            let c = idx;
-
-            if (l < len && this.compare(this.heap[l], this.heap[c]) < 0) c = l;
-            if (r < len && this.compare(this.heap[r], this.heap[c]) < 0) c = r;
-            if (c === idx) break;
-
-            [this.heap[idx], this.heap[c]] = [this.heap[c], this.heap[idx]];
+            if(l < len && this.compare(this.heap[l], this.heap[c]) < 0) c = l;
+            if(r < len && this.compare(this.heap[r], this.heap[c]) < 0) c = r;
+            if(c === idx) break;
+            [this.heap[c], this.heap[idx]] = [this.heap[idx], this.heap[c]];
             idx = c;
         }
-
-        return t;
+        return top;
+        
     }
-
     peek(){
         return this.heap[0];
     }
-
     size(){
         return this.heap.length;
     }
