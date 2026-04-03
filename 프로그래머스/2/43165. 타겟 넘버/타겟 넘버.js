@@ -1,20 +1,18 @@
 function solution(numbers, target) {
-    let answer = 0;
-    const stack = [{index: 0, sum: 0}];
-    
-    while (stack.length > 0) {
-        const {index, sum} = stack.pop();
-        
-        if (index === numbers.length) {
-            if (sum === target) answer++;
-            continue;
+    let ans = 0;
+    function dfs(node, sum){
+        let s = sum;
+        if(node === numbers.length){
+           if(sum === target){
+            ans++;
         }
-        
-        // 빼기 경우
-        stack.push({index: index + 1, sum: sum - numbers[index]});
-        // 더하기 경우
-        stack.push({index: index + 1, sum: sum + numbers[index]});
+            return;
+        }
+        s -= numbers[node];
+        dfs(node + 1, s)  
+        s += numbers[node] * 2;
+        dfs(node + 1, s);
     }
-    
-    return answer;
+    dfs(0,0);
+    return ans;
 }
