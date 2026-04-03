@@ -1,23 +1,13 @@
-function solution(s) {
+function solution(s){
     const stack = [];
-    s = s.split("");
-    let ans = true;
-    
     for(let i = 0; i < s.length; i++){
-        const top = stack[stack.length-1];
-        if(top === '(' && s[i] === ')'){
+        const cur = s[i];
+        if(cur === ')' && stack[stack.length - 1] === ')') return false;
+        if(cur === ')' && stack[stack.length - 1] === '('){
             stack.pop();
+            continue;
         }
-        else{
-            stack.push(s[i]);
-        }
+        stack.push(cur);
     }
-    console.log(stack);
-    if(stack.length > 0) ans = false;
-    return ans;
+    return stack.length === 0 ? true : false;
 }
-
-
-    
-    
-    
