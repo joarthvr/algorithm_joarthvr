@@ -4,7 +4,7 @@ function solution(brown, yellow) {
         if(yellow % i === 0) arr.push([i, yellow / i])
     }
     for(const [ls, bs] of arr){
-        if(brown - bs * 2 < (ls + 2) * 2) continue;
+       if(brown !== 2 * (ls + bs) + 4) continue;
         
         return [bs + 2, ls + 2]
         
