@@ -1,29 +1,24 @@
 function solution(begin, target, words) {
-    if(!words.includes(target)) return 0;
-
-    const visited = new Array(words.length).fill(false);
-    const queue = [[begin, 0]];
-
-    while(queue.length){
-        const [word, depth] = queue.shift();
-
-        if(word === target) return depth;
-
-        for(let i = 0; i < words.length; i++){
-            if(visited[i]) continue;
-
+    const l = words.length
+    const visited = new Array(l).fill(false);
+    const q = [[begin,0]];
+    let idx = 0;
+    while(idx < q.length){
+        const [cur,cI] = q[idx++];
+        if(cur === target) return cI;
+        for(let i = 0; i < l; i++){
             let diff = 0;
-
-            for(let j = 0; j < word.length; j++){
-                if(word[j] !== words[i][j]) diff++;
-            }
-
-            if(diff === 1){
-                visited[i] = true;
-                queue.push([words[i], depth + 1]);
+            if(!visited[i]){
+                const candidate = words[i];
+                for(let j = 0; j < begin.length; j++){
+                    if(cur[j] !== candidate[j]) diff++;
+                }
+                if(diff === 1) {
+                    visited[i] = true
+                    q.push([candidate, cI + 1]);
+                }
             }
         }
     }
-
     return 0;
 }
