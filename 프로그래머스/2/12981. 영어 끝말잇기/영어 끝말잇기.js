@@ -1,20 +1,27 @@
 function solution(n, words) {
-    let turn = 1;
-    const len = words.length;
+    let cnt = [1,1];
     const set = new Set();
+    set.add(words[0])
+    let prevChar = words[0][words[0].length - 1];
     
-    for(let i = 0; i < len; i++){
-        if(i < len - 1){
-            console.log(words[i][words[i].length-1], words[i+1][0], i)
-            if(set.has(words[i])) return [i%n+1, Math.floor(i / n) + 1];
-            if(words[i][words[i].length-1] !== words[i+1][0]) return [(i+1)%n+1, Math.floor((i+1) / n) + 1];    
-            set.add(words[i]);    
+    for(let i = 1; i < words.length; i++){
+        cnt [0] = (i % n) + 1;
+        if(i % n === 0) cnt[1] += 1;
+        const cur = words[i];
+        const curChar = cur[0];
+        if(set.has(cur) || prevChar !== curChar){
+            return cnt;
         }
-        else{
-            if(set.has(words[i])) return [i%n+1, Math.floor(i / n) + 1];
-            if(words[i][words[i][0]] !== words[i-1][words.length-1]) return [(i+1)%n+1, Math.floor((i+1) / n) + 1];
-        }
-
+        set.add(cur);
+        prevChar = cur[cur.length - 1]
+        
     }
+    
     return [0,0];
+    
 }
+
+// 가장 먼저 탈락하는 사람의 번호와 그 사람이 자신의 몇 번째 차례에 탈락하는지
+// 했던 거 말하거나 => set
+// 철자가 틀릴 때 => 조건문 
+// 시뮬레이션
