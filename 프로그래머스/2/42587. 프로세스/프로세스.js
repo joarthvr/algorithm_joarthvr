@@ -1,24 +1,26 @@
 function solution(priorities, location) {
-    // 각 프로세스의 우선순위와 인덱스를 저장
-    const queue = priorities.map((priority, index) => ({ priority, index }));
-    let count = 0;
-    
-    while (queue.length > 0) {
-        // 큐의 맨 앞 프로세스를 꺼냄
-        const current = queue.shift();
-        
-        // 큐에 남아있는 프로세스 중 우선순위가 더 높은 것이 있는지 확인
-        if (queue.some(process => process.priority > current.priority)) {
-            // 우선순위가 더 높은 프로세스가 있으면 현재 프로세스를 다시 큐에 넣음
-            queue.push(current);
-        } else {
-            // 우선순위가 더 높은 프로세스가 없으면 실행
-            count++;
-            
-            // 우리가 찾는 프로세스인 경우 count를 반환
-            if (current.index === location) {
-                return count;
-            }
+    const q = [];
+   for(let i = 0; i < priorities.length; i++){
+       q.push([priorities[i], i]);
+    }
+    const sorted = [...priorities].sort((a,b) => a-b);
+    let idx = 0;
+    let cnt = 0;
+    console.log(sorted);
+    while(idx !== q.length){
+        const [fV,fI] = q[idx++];
+        if(fV === sorted[sorted.length - 1]){
+            sorted.pop();
+            cnt++;
+            if(fI === location) return cnt;
+        }
+        else{
+            q.push([fV,fI]);
         }
     }
+   
 }
+// 뭘 저장? [우선순위, 원래 인덱스] 쌍
+// 언제 저장? 최대 우선순위가 아닐 때 큐 뒤에 다시 넣음
+// 어디서 시작? 큐 앞에서부터 (인덱스 포인터 방식)
+// 우선순위를 어떻게 관리하지?
