@@ -1,43 +1,74 @@
+class Heap{
+    constructor(compare){
+        this.heap = [];
+        this.compare = compare;
+    }
+    push(v){
+        this.heap.push(v);
+        let idx = this.heap.length - 1;
+        
+        while(idx > 0){
+            const p = Math.floor((idx - 1) / 2);
+            if(this.compare(this.heap[p], this.heap[idx]) <= 0) break;
+            [this.heap[p], this.heap[idx]] = [this.heap[idx], this.heap[p]];
+            idx = p;
+        }
+    }
+    pop(){
+        if(this.heap.length === 0) undefined;
+        if(this.heap.length === 1) return this.heap.pop();
+        const top = this.heap[0];
+        this.heap[0] = this.heap.pop();
+        const len = this.heap.length;
+        let idx = 0;
+        
+        while(true){
+            const l = idx * 2 + 1;
+            const r = idx * 2 + 2;
+            let c = idx;
+            
+            if(l < len && this.compare(this.heap[l], this.heap[c]) < 0) c = l;
+            if(r < len && this.compare(this.heap[r], this.heap[c]) < 0) c = r;
+            
+            if(c === idx) break;
+            [this.heap[c], this.heap[idx]] = [this.heap[idx], this.heap[c]];
+            idx = c;
+        }
+        return top;
+        
+    }
+    size(){
+        return this.heap.length;
+    }
+    peek(){
+        return this.heap[0];
+    }
+}
 function solution(N, road, K) {
-    // 1단계: 그래프 구축 (3분)
     const graph = Array.from({length: N + 1}, () => []);
-    
-    // 양방향 간선 추가 + 중복 간선 처리
-    for(const [a, b, c] of road) {
-        graph[a].push([b, c]);
-        graph[b].push([a, c]);
+    for(const [a,b,w] of road){
+        graph[a].push([b,w]);
+        graph[b].push([a,w]);
+        
     }
     
-    // 2단계: 다익스트라 (15분)
     const dist = Array(N + 1).fill(Infinity);
-    const visited = Array(N + 1).fill(false);
+    dist[1] = 0;
+    const heap = new Heap((a, b) => a[0] - b[0]);
+    heap.push([0, 1]);
     
-    dist[1] = 0;  // 시작점 1번 마을
     
-    for(let i = 0; i < N; i++) {
-        // 방문하지 않은 노드 중 최소 거리 노드 찾기
-        let minNode = -1;
-        for(let j = 1; j <= N; j++) {
-            if(!visited[j] && (minNode === -1 || dist[j] < dist[minNode])) {
-                minNode = j;
-            }
-        }
-        
-        visited[minNode] = true;
-        
-        // 인접 노드들의 거리 업데이트
-        for(const [next, cost] of graph[minNode]) {
-            if(!visited[next]) {
-                dist[next] = Math.min(dist[next], dist[minNode] + cost);
+    while(heap.size() > 0){
+        const [cost, cur] = heap.pop();
+        if(cost > dist[cur]) continue;
+        for(const [next, weight] of graph[cur]){
+            const newCost = cost + weight;
+            if(newCost < dist[next]){
+                dist[next] = newCost;
+                heap.push([newCost, next]);
             }
         }
     }
     
-    // 3단계: K 이하 거리 마을 개수 세기 (2분)
-    let count = 0;
-    for(let i = 1; i <= N; i++) {
-        if(dist[i] <= K) count++;
-    }
-    
-    return count;
+    return dist.filter(d => d <= K).length;
 }
