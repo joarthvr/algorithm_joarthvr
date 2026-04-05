@@ -3,15 +3,15 @@ function solution(n, computers) {
     const visited = new Array(n).fill(false);
     function dfs(node){
         visited[node] = true;
-        for(let j = 0; j < n; j++){
-            if(computers[node][j] === 1 && !visited[j]) dfs(j);
+        for(let i = 0; i < n; i++){
+            if(computers[node][i] === 1 && !visited[i]) dfs(i);
         }
     }
     
     for(let i = 0; i < n; i++){
         if(!visited[i]){
+            dfs(i)
             ans++;
-            dfs(i);
         }
     }
     return ans;
