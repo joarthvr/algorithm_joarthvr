@@ -14,6 +14,7 @@ function solution(n, computers) {
             ans++;
         }
     }
+    console.log('q')
     return ans;
 }
 
