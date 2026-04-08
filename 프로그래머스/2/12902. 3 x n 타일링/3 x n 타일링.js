@@ -27,7 +27,7 @@ function solution(n) {
             dp[i] = (dp[i] + (dp[j] * 2) % MOD) % MOD;
         }
     }
-    
+    console.log(1)
     return dp[n];
 }
 
