@@ -23,7 +23,7 @@ function solution(N, road, K) {
             }
         }
     }
-    console.log(11)
+    console.log(1111)
     return dist.filter(d => d <= K).length;
 }
 
