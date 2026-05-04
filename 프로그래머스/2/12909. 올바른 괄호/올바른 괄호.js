@@ -1,13 +1,12 @@
-function solution(s){
+function solution(s) {
     const stack = [];
-    for(let i = 0; i < s.length; i++){
-        const cur = s[i];
-        if(cur === ')' && stack[stack.length - 1] === ')') return false;
-        if(cur === ')' && stack[stack.length - 1] === '('){
+    for (const c of s) {
+        if (c === '(') stack.push(c);
+        else {
+            if (stack.length === 0) return false; 
             stack.pop();
-            continue;
         }
-        stack.push(cur);
     }
-    return stack.length === 0 ? true : false;
+    console.log(1)
+    return stack.length === 0;
 }
