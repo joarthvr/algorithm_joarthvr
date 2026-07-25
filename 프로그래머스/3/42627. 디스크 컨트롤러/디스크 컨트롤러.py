@@ -14,7 +14,7 @@ def solution(jobs):
             duration, request_time = heapq.heappop(heap)
             current_time += duration
             answer += current_time - request_time
-        else:   
+        else:
             current_time = jobs[i][0]
-    
+
     return answer // len(jobs)
