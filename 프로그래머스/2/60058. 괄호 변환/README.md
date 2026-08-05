@@ -1,14 +1,14 @@
 # [level 2] 괄호 변환 - 60058 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/60058) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/60058?language=python3) 
 
 ### 성능 요약
 
-메모리: 33.6 MB, 시간: 0.78 ms
+메모리: 11.6 MB, 시간: 0.26 ms
 
 ### 구분
 
- > 
+코딩테스트 연습 > 2020 KAKAO BLIND RECRUITMENT
 
 ### 채점결과
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 05월 27일 15:22:19
+2026년 08월 05일 14:01:10
 
 ### 문제 설명
 
